@@ -1,4 +1,4 @@
-function createStore () {
+function createStore() {
   // The store should have four parts
   // 1. The state
   // 2. Get the state.
