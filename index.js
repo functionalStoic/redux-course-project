@@ -39,11 +39,21 @@ Characteristics of a Pure Function
 
 // Reducer function
 function todos(state = [], action) {
-  if (action.type === 'ADD_TODO') {
-    return state.concat([action.todo]);
+  switch (action.type) {
+    case "ADD_TODO":
+      return state.concat([action.todo])
+    case "REMOVE_TODO":
+      return state.filter(todo => todo.id !== action.id)
+    case "TOGGLE_TODO":
+      return state.map(
+        todo =>
+          todo.id !== action.id
+            ? todo
+            : Object.assign({}, todo, { complete: !todo.complete })
+      )
+    default:
+      return state
   }
-
-  return state;
 }
 
 function createStore(reducer) {
@@ -53,28 +63,28 @@ function createStore(reducer) {
   // 3. Listen to changes on the state. (subscribe)
   // 4. Update the state (dispatch)
 
-  let state;
-  let listeners = [];
+  let state
+  let listeners = []
 
-  const getState = () => state;
+  const getState = () => state
 
   const subscribe = listener => {
-    listeners.push(listener);
+    listeners.push(listener)
     return () => {
-      listeners = listeners.filter(l => l !== listener);
-    };
-  };
+      listeners = listeners.filter(l => l !== listener)
+    }
+  }
 
   const dispatch = action => {
-    state = reducer(state, action);
-    listeners.forEach(listener => listener());
-  };
+    state = reducer(state, action)
+    listeners.forEach(listener => listener())
+  }
 
   return {
     getState,
     subscribe,
     dispatch
-  };
+  }
 }
 
-const store = createStore(todos);
+const store = createStore(todos)
