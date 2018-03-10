@@ -128,10 +128,18 @@ store.subscribe(() => {
   todos.forEach(addTodoToDOM)
 })
 
+// DOM code
+
 function addTodoToDOM(todo) {
   const node = document.createElement('li')
   const text = document.createTextNode(todo.name)
+
+  const removeBtn = createRemoveButton(() => {
+    store.dispatch(removeTodoAction(todo.id))
+  })
+
   node.appendChild(text)
+  node.appendChild(removeBtn)
   node.style.textDecoration = todo.complete ? 'line-through' : 'none'
   node.addEventListener('click', () => {
     store.dispatch(toggleTodoAction(todo.id))
@@ -139,57 +147,29 @@ function addTodoToDOM(todo) {
 
   document.getElementById('todos').appendChild(node)
 }
+
 function addGoalToDOM(goal) {
   const node = document.createElement('li')
   const text = document.createTextNode(goal.name)
+
+  const removeBtn = createRemoveButton(() => {
+    store.dispatch(removeGoalAction(goal.id))
+  })
+
   node.appendChild(text)
+  node.appendChild(removeBtn)
 
   document.getElementById('goals').appendChild(node)
 }
 
-// store.dispatch(
-//   addTodoAction({
-//     id: 0,
-//     name: 'Walk the dog',
-//     complete: false
-//   })
-// )
-// store.dispatch(
-//   addTodoAction({
-//     id: 1,
-//     name: 'Wash the car',
-//     complete: false
-//   })
-// )
-// store.dispatch(
-//   addTodoAction({
-//     id: 2,
-//     name: 'Go to the gym',
-//     complete: false
-//   })
-// )
+function createRemoveButton(onClick) {
+  const removeBtn = document.createElement('button')
+  removeBtn.innerHTML = 'X'
+  removeBtn.addEventListener('click', onClick)
 
-// store.dispatch(removeTodoAction(1))
+  return removeBtn
+}
 
-// store.dispatch(toggleTodoAction(0))
-
-// store.dispatch(
-//   addGoalAction({
-//     id: 0,
-//     name: 'Learn Redux'
-//   })
-// )
-
-// store.dispatch(
-//   addGoalAction({
-//     id: 1,
-//     name: 'Lose 20 lbs'
-//   })
-// )
-
-// store.dispatch(removeGoalAction(0))
-
-// DOM code
 function addTodo() {
   const input = document.getElementById('todo')
   const name = input.value
