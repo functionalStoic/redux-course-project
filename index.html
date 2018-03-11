@@ -36,11 +36,36 @@
   <script type="text/babel">
     const List = (props) => <ul><li>LIST</li></ul>
     
-    const Todos = (props) => 
-      <div>
-        TODOS
-        <List />
-      </div>
+    class Todos extends React.Component {
+      addItem = (e) => {
+        e.preventDefault()
+        const name = this.input.value
+        this.input.value = ''
+
+        this.props.store.dispatch(addTodoAction({
+          id: generateId(),
+          name,
+          complete: false
+        }))
+      }
+
+      render() {
+        return (
+          <div>
+            <h1>Todo List</h1>
+            <form>
+              <input 
+                type="text"
+                placeholder="Add Todo"
+                ref={(input) => this.input = input}
+              />
+              <button onClick={this.addItem}>Add Todo</button>
+            </form>
+            <List />
+          </div>
+        )
+      }
+    }
     
 
     const Goals = (props) =>
@@ -49,15 +74,15 @@
         <List />
       </div>
     
-    
-    const App = () => 
+     
+    const App = ({store}) => 
       <div>
-        <Todos />
-        <Goals />
+        <Todos store={store} />
+        <Goals store={store}/>
       </div>
 
 
-    ReactDOM.render(<App />, document.getElementById('app'))
+    ReactDOM.render(<App store={store}/>, document.getElementById('app'))
   </script>
 </body>
 
