@@ -13,6 +13,7 @@ const TOGGLE_TODO = 'TOGGLE_TODO'
 const ADD_GOAL = 'ADD_GOAL'
 const REMOVE_GOAL = 'REMOVE_GOAL'
 
+// Action Creators
 function addTodoAction(todo) {
   return {
     type: ADD_TODO,
@@ -112,84 +113,3 @@ const store = Redux.createStore(
   }),
   Redux.applyMiddleware(checker, logger)
 )
-
-store.subscribe(() => {
-  const { goals, todos } = store.getState()
-
-  document.getElementById('goals').innerHTML = ''
-  document.getElementById('todos').innerHTML = ''
-  goals.forEach(addGoalToDOM)
-  todos.forEach(addTodoToDOM)
-})
-
-// DOM code
-
-function addTodoToDOM(todo) {
-  const node = document.createElement('li')
-  const text = document.createTextNode(todo.name)
-
-  const removeBtn = createRemoveButton(() => {
-    store.dispatch(removeTodoAction(todo.id))
-  })
-
-  node.appendChild(text)
-  node.appendChild(removeBtn)
-  node.style.textDecoration = todo.complete ? 'line-through' : 'none'
-  node.addEventListener('click', () => {
-    store.dispatch(toggleTodoAction(todo.id))
-  })
-
-  document.getElementById('todos').appendChild(node)
-}
-
-function addGoalToDOM(goal) {
-  const node = document.createElement('li')
-  const text = document.createTextNode(goal.name)
-
-  const removeBtn = createRemoveButton(() => {
-    store.dispatch(removeGoalAction(goal.id))
-  })
-
-  node.appendChild(text)
-  node.appendChild(removeBtn)
-
-  document.getElementById('goals').appendChild(node)
-}
-
-function createRemoveButton(onClick) {
-  const removeBtn = document.createElement('button')
-  removeBtn.innerHTML = 'X'
-  removeBtn.addEventListener('click', onClick)
-
-  return removeBtn
-}
-
-function addTodo() {
-  const input = document.getElementById('todo')
-  const name = input.value
-  input.value = ''
-
-  store.dispatch(
-    addTodoAction({
-      id: generateId(),
-      name,
-      complete: false
-    })
-  )
-}
-
-function addGoal() {
-  const input = document.getElementById('goal')
-  const name = input.value
-  input.value = ''
-
-  store.dispatch(
-    addGoalAction({
-      id: generateId(),
-      name
-    })
-  )
-}
-
-document.getElementById('todoBtn').addEventListener('click', addTodo)
-document.getElementById('goalBtn').addEventListener('click', addGoal)
