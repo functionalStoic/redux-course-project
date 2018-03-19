@@ -1,33 +1,29 @@
-import React, { Component } from "react";
-import List from "./List";
+import React, { Component, Fragment } from 'react';
+import List from './List';
 import {
   addTodoAction,
   removeTodoAction,
   toggleTodoAction
-} from "../actionCreators";
-import { generateId } from "../utils";
-import { deleteTodo, saveTodoToggle } from "../API";
+} from '../actionCreators';
+import { deleteTodo, saveTodoToggle, saveTodo } from '../API';
 
 export default class Todos extends Component {
   addItem = e => {
     e.preventDefault();
-    const name = this.input.value;
-    this.input.value = "";
 
-    this.props.store.dispatch(
-      addTodoAction({
-        id: generateId(),
-        name,
-        complete: false
+    return saveTodo(this.input.value)
+      .then(todo => {
+        this.props.store.dispatch(addTodoAction(todo));
+        this.input.value = '';
       })
-    );
+      .catch(() => alert('There was an error. Try again.'));
   };
 
   removeItem = todo => {
     this.props.store.dispatch(removeTodoAction(todo.id));
     return deleteTodo(todo.id).catch(() => {
       this.props.store.dispatch(addTodoAction(todo));
-      alert("An error occurred. Try again");
+      alert('An error occurred. Try again');
     });
   };
 
@@ -35,13 +31,13 @@ export default class Todos extends Component {
     this.props.store.dispatch(toggleTodoAction(id));
     return saveTodoToggle(id).catch(() => {
       this.props.store.dispatch(toggleTodoAction(id));
-      alert("An error occurred. Try again");
+      alert('An error occurred. Try again');
     });
   };
 
   render() {
     return (
-      <div>
+      <Fragment>
         <h1>Todo List</h1>
         <form>
           <input
@@ -56,7 +52,7 @@ export default class Todos extends Component {
           remove={this.removeItem}
           toggle={this.toggleItem}
         />
-      </div>
+      </Fragment>
     );
   }
 }
