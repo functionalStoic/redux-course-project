@@ -24,6 +24,3 @@ export const logger = store => next => action => {
   console.groupEnd();
   return result;
 };
-
-export const thunk = store => next => action =>
-  typeof action === 'function' ? action(store.dispatch) : next(action);
