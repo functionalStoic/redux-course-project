@@ -5,7 +5,7 @@ import {
   ADD_GOAL,
   REMOVE_GOAL,
   RECEIVE_DATA
-} from "./constants";
+} from './constants';
 
 export function todos(state = [], action) {
   switch (action.type) {
@@ -44,6 +44,39 @@ export function loading(state = true, action) {
   switch (action.type) {
     case RECEIVE_DATA:
       return false;
+    default:
+      return state;
+  }
+}
+
+export function fetchData(
+  state = {
+    data: [],
+    isFetching: false,
+    error: ''
+  },
+  action
+) {
+  switch (action.type) {
+    case 'FETCHING_DATA':
+      return {
+        ...state,
+        isFetching: true
+      };
+    case 'FETCHING_DATA_ERROR':
+      return {
+        ...state,
+        isFetching: false,
+        error: action.error
+      };
+    case 'FETCHING_DATA_SUCCESS':
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        data: action.data
+      };
+
     default:
       return state;
   }

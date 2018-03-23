@@ -5,7 +5,9 @@ import {
   ADD_GOAL,
   REMOVE_GOAL,
   RECEIVE_DATA
-} from "./constants";
+} from './constants';
+
+import { deleteTodo } from './API';
 
 export function addTodoAction(todo) {
   return {
@@ -49,3 +51,42 @@ export function receiveDataAction(todos, goals) {
     goals
   };
 }
+
+export function handleDeleteTodo(todo) {
+  return dispatch => {
+    dispatch(removeTodoAction(todo.id));
+    return deleteTodo(todo.id).catch(() => {
+      dispatch(addTodoAction(todo));
+      alert('An error occurred. Try again');
+    });
+  };
+}
+
+// export function fetchingData() {
+//   return {
+//     type: 'FETCHING_DATA'
+//   };
+// }
+
+// export function fetchingDataError(error) {
+//   return {
+//     type: 'FETCHING_DATA_ERROR',
+//     error: error.msg
+//   };
+// }
+
+// export function fetchingDataSuccess(data) {
+//   return {
+//     type: 'FETCHING_DATA_SUCCESS',
+//     data
+//   };
+// }
+
+// export function fetchAndHandleData() {
+//   return dispatch => {
+//     // dispatch(fetchingData());
+//     // getData()
+//     //   .then(data => dispatch(fetchingDataSuccess(data)))
+//     //   .catch(error => dispatch(fetchingDataError(error)));
+//   };
+// }

@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import List from './List';
 import {
   addTodoAction,
-  removeTodoAction,
-  toggleTodoAction
+  toggleTodoAction,
+  handleDeleteTodo
 } from '../actionCreators';
-import { deleteTodo, saveTodoToggle, saveTodo } from '../API';
+import { saveTodoToggle, saveTodo } from '../API';
 
 export default class Todos extends Component {
   addItem = e => {
@@ -19,13 +19,7 @@ export default class Todos extends Component {
       .catch(() => alert('There was an error. Try again.'));
   };
 
-  removeItem = todo => {
-    this.props.store.dispatch(removeTodoAction(todo.id));
-    return deleteTodo(todo.id).catch(() => {
-      this.props.store.dispatch(addTodoAction(todo));
-      alert('An error occurred. Try again');
-    });
-  };
+  removeItem = todo => this.props.store.dispatch(handleDeleteTodo(todo));
 
   toggleItem = id => {
     this.props.store.dispatch(toggleTodoAction(id));

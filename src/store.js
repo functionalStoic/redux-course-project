@@ -1,6 +1,6 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { todos, goals, loading } from "./reducers";
-import { checker, logger } from "./middleware";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { todos, goals, loading } from './reducers';
+import { thunk, checker, logger } from './middleware';
 
 export default createStore(
   combineReducers({
@@ -8,5 +8,5 @@ export default createStore(
     goals,
     loading
   }),
-  applyMiddleware(checker, logger)
+  applyMiddleware(thunk, checker, logger)
 );

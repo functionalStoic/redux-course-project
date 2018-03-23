@@ -1,15 +1,15 @@
-import { ADD_TODO, ADD_GOAL } from "./constants";
+import { ADD_TODO, ADD_GOAL } from './constants';
 
 export const checker = store => next => action => {
   if (
     action.type === ADD_TODO &&
-    action.todo.name.toLowerCase().indexOf("bitcoin") !== -1
+    action.todo.name.toLowerCase().indexOf('bitcoin') !== -1
   ) {
     return alert("Nope. That's a bad idea");
   }
   if (
     action.type === ADD_GOAL &&
-    action.goal.name.toLowerCase().indexOf("bitcoin") !== -1
+    action.goal.name.toLowerCase().indexOf('bitcoin') !== -1
   ) {
     return alert("Nope. That's a bad idea");
   }
@@ -18,9 +18,12 @@ export const checker = store => next => action => {
 
 export const logger = store => next => action => {
   console.group(action.type);
-  console.log("The action: ", action);
+  console.log('The action: ', action);
   const result = next(action);
-  console.log("The new state: ", store.getState());
+  console.log('The new state: ', store.getState());
   console.groupEnd();
   return result;
 };
+
+export const thunk = store => next => action =>
+  typeof action === 'function' ? action(store.dispatch) : next(action);
