@@ -13,7 +13,9 @@ import {
   deleteGoal,
   saveTodo,
   saveTodoToggle,
-  deleteTodo
+  deleteTodo,
+  fetchTodos,
+  fetchGoals
 } from './API';
 
 export function addTodoAction(todo) {
@@ -107,4 +109,11 @@ export function handleToggleTodo(id) {
       alert(STANDARD_ERROR);
     });
   };
+}
+
+export function handleInitialData() {
+  return dispatch =>
+    Promise.all([fetchTodos(), fetchGoals()]).then(([todos, goals]) =>
+      dispatch(receiveDataAction(todos, goals))
+    );
 }

@@ -1,17 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import Todos from './Todos';
 import Goals from './Goals';
-import { receiveDataAction } from '../actionCreators';
-import { fetchTodos, fetchGoals } from '../API';
+import { handleInitialData } from '../actionCreators';
 
 export default class App extends Component {
   componentDidMount() {
     const { dispatch, subscribe } = this.props.store;
-
-    Promise.all([fetchTodos(), fetchGoals()]).then(([todos, goals]) =>
-      dispatch(receiveDataAction(todos, goals))
-    );
-
+    dispatch(handleInitialData());
     subscribe(() => this.forceUpdate());
   }
 
