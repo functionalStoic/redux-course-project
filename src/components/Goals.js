@@ -1,40 +1,26 @@
 import React, { Component, Fragment } from 'react';
 import List from './List';
-import { addGoalAction, removeGoalAction } from '../actionCreators';
-import { deleteGoal, saveGoal } from '../API';
+import { handleDeleteGoal, handleAddGoal } from '../actionCreators';
 
 export default class Goals extends Component {
-  addItem = e => {
-    e.preventDefault();
+  addItem = () =>
+    this.props.store.dispatch(
+      handleAddGoal(this.input.value, () => (this.input.value = ''))
+    );
 
-    return saveGoal(this.input.value)
-      .then(goal => {
-        this.props.store.dispatch(addGoalAction(goal));
-        this.input.value = '';
-      })
-      .catch(() => alert('There was an error. Try again.'));
-  };
-
-  removeItem = goal => {
-    this.props.store.dispatch(removeGoalAction(goal.id));
-    return deleteGoal(goal.id).catch(() => {
-      this.props.store.dispatch(addGoalAction(goal));
-      alert('There was an issue. Try again');
-    });
-  };
+  removeItem = goal => this.props.store.dispatch(handleDeleteGoal(goal));
 
   render() {
     return (
       <Fragment>
         <h1>Goal List</h1>
-        <form>
-          <input
-            type="text"
-            placeholder="Add Goal"
-            ref={input => (this.input = input)}
-          />
-          <button onClick={this.addItem}>Add Goal</button>
-        </form>
+        <input
+          type="text"
+          placeholder="Add Goal"
+          ref={input => (this.input = input)}
+          onKeyPress={event => (event.key === 'Enter' ? this.addItem() : null)}
+        />
+        <button onClick={this.addItem}>Add Goal</button>
         <List items={this.props.goals} remove={this.removeItem} />
       </Fragment>
     );

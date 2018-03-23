@@ -4,10 +4,17 @@ import {
   TOGGLE_TODO,
   ADD_GOAL,
   REMOVE_GOAL,
-  RECEIVE_DATA
+  RECEIVE_DATA,
+  STANDARD_ERROR
 } from './constants';
 
-import { deleteTodo } from './API';
+import {
+  saveGoal,
+  deleteGoal,
+  saveTodo,
+  saveTodoToggle,
+  deleteTodo
+} from './API';
 
 export function addTodoAction(todo) {
   return {
@@ -57,36 +64,47 @@ export function handleDeleteTodo(todo) {
     dispatch(removeTodoAction(todo.id));
     return deleteTodo(todo.id).catch(() => {
       dispatch(addTodoAction(todo));
-      alert('An error occurred. Try again');
+      alert(STANDARD_ERROR);
     });
   };
 }
 
-// export function fetchingData() {
-//   return {
-//     type: 'FETCHING_DATA'
-//   };
-// }
+export function handleDeleteGoal(goal) {
+  return dispatch => {
+    dispatch(removeGoalAction(goal.id));
+    return deleteGoal(goal.id).catch(() => {
+      dispatch(addGoalAction(goal));
+      alert(STANDARD_ERROR);
+    });
+  };
+}
 
-// export function fetchingDataError(error) {
-//   return {
-//     type: 'FETCHING_DATA_ERROR',
-//     error: error.msg
-//   };
-// }
+export function handleAddGoal(name, cb) {
+  return dispatch =>
+    saveGoal(name)
+      .then(goal => {
+        dispatch(addGoalAction(goal));
+        cb();
+      })
+      .catch(() => alert(STANDARD_ERROR));
+}
 
-// export function fetchingDataSuccess(data) {
-//   return {
-//     type: 'FETCHING_DATA_SUCCESS',
-//     data
-//   };
-// }
+export function handleAddTodo(name, cb) {
+  return dispatch =>
+    saveTodo(name)
+      .then(todo => {
+        dispatch(addTodoAction(todo));
+        cb();
+      })
+      .catch(() => alert(STANDARD_ERROR));
+}
 
-// export function fetchAndHandleData() {
-//   return dispatch => {
-//     // dispatch(fetchingData());
-//     // getData()
-//     //   .then(data => dispatch(fetchingDataSuccess(data)))
-//     //   .catch(error => dispatch(fetchingDataError(error)));
-//   };
-// }
+export function handleToggleTodo(id) {
+  return dispatch => {
+    dispatch(toggleTodoAction(id));
+    return saveTodoToggle(id).catch(() => {
+      dispatch(toggleTodoAction(id));
+      alert(STANDARD_ERROR);
+    });
+  };
+}
