@@ -5,8 +5,9 @@ import {
   handleAddTodo,
   handleToggleTodo
 } from '../actions/todos';
+import { connect } from 'react-redux';
 
-export default class Todos extends Component {
+class Todos extends Component {
   addItem = () =>
     this.props.dispatch(
       handleAddTodo(this.input.value, () => (this.input.value = ''))
@@ -34,3 +35,7 @@ export default class Todos extends Component {
     </Fragment>
   );
 }
+
+export default connect(state => ({
+  todos: state.todos
+}))(Todos);

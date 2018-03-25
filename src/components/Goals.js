@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import List from './List';
 import { handleDeleteGoal, handleAddGoal } from '../actions/goals';
-
-export default class Goals extends Component {
+import { connect } from 'react-redux';
+class Goals extends Component {
   addItem = () =>
     this.props.dispatch(
       handleAddGoal(this.input.value, () => (this.input.value = ''))
@@ -26,3 +26,7 @@ export default class Goals extends Component {
     );
   }
 }
+
+export default connect(state => ({
+  goals: state.goals
+}))(Goals);

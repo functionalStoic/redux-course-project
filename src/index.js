@@ -2,12 +2,12 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
-import ConnectedApp from './containers/ConnectedApp';
+import App from './components/App';
 import store from './store';
 
 render(
   <Provider store={store}>
-    <ConnectedApp />
+    <App />
   </Provider>,
   document.getElementById('root')
 );
