@@ -1,25 +1,23 @@
 import React, { Component, Fragment } from 'react';
-import Todos from './Todos';
-import Goals from './Goals';
+import ConectedTodos from './containers/ConectedTodos';
+import ConnectedGoals from './containers/ConnectedGoals';
 import { handleInitialData } from '../actionCreators';
 
 export default class App extends Component {
   componentDidMount() {
-    const { dispatch, subscribe } = this.props.store;
+    const { dispatch } = this.props;
     dispatch(handleInitialData());
-    subscribe(() => this.forceUpdate());
   }
 
   render() {
-    const { store } = this.props;
-    const { todos, goals, loading } = store.getState();
+    const { loading } = this.props;
 
     return loading === true ? (
       <h3>Loading...</h3>
     ) : (
       <Fragment>
-        <Todos todos={todos} store={store} />
-        <Goals goals={goals} store={store} />
+        <ConnectedTodos />
+        <ConnectedGoals />
       </Fragment>
     );
   }
