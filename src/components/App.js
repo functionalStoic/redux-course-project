@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import ConnectedTodos from '../containers/ConnectedTodos';
 import ConnectedGoals from '../containers/ConnectedGoals';
-import { handleInitialData } from '../actionCreators';
+import { handleInitialData } from '../actions/shared';
 
 export default class App extends Component {
   componentDidMount = () => this.props.dispatch(handleInitialData());

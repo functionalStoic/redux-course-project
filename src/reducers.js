@@ -1,11 +1,6 @@
-import {
-  ADD_TODO,
-  REMOVE_TODO,
-  TOGGLE_TODO,
-  ADD_GOAL,
-  REMOVE_GOAL,
-  RECEIVE_DATA
-} from './constants';
+import { RECEIVE_DATA } from './actions/shared';
+import { ADD_TODO, REMOVE_TODO, TOGGLE_TODO } from './actions/todos';
+import { ADD_GOAL, REMOVE_GOAL } from './actions/goals';
 
 export function todos(state = [], action) {
   switch (action.type) {

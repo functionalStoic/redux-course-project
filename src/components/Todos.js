@@ -4,7 +4,7 @@ import {
   handleDeleteTodo,
   handleAddTodo,
   handleToggleTodo
-} from '../actionCreators';
+} from '../actions/todos';
 
 export default class Todos extends Component {
   addItem = () =>

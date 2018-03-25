@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import List from './List';
-import { handleDeleteGoal, handleAddGoal } from '../actionCreators';
+import { handleDeleteGoal, handleAddGoal } from '../actions/goals';
 
 export default class Goals extends Component {
   addItem = () =>

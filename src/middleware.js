@@ -1,4 +1,5 @@
-import { ADD_TODO, ADD_GOAL } from './constants';
+import { ADD_TODO } from './actions/todos';
+import { ADD_GOAL } from './actions/goals';
 
 export const checker = store => next => action => {
   if (
