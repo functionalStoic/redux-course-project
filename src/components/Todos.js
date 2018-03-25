@@ -8,31 +8,29 @@ import {
 
 export default class Todos extends Component {
   addItem = () =>
-    this.props.store.dispatch(
+    this.props.dispatch(
       handleAddTodo(this.input.value, () => (this.input.value = ''))
     );
 
-  removeItem = todo => this.props.store.dispatch(handleDeleteTodo(todo));
+  removeItem = todo => this.props.dispatch(handleDeleteTodo(todo));
 
-  toggleItem = id => this.props.store.dispatch(handleToggleTodo(id));
+  toggleItem = id => this.props.dispatch(handleToggleTodo(id));
 
-  render() {
-    return (
-      <Fragment>
-        <h1>Todo List</h1>
-        <input
-          type="text"
-          placeholder="Add Todo"
-          ref={input => (this.input = input)}
-          onKeyPress={event => (event.key === 'Enter' ? this.addItem() : null)}
-        />
-        <button onClick={this.addItem}>Add Todo</button>
-        <List
-          items={this.props.todos}
-          remove={this.removeItem}
-          toggle={this.toggleItem}
-        />
-      </Fragment>
-    );
-  }
+  render = () => (
+    <Fragment>
+      <h1>Todo List</h1>
+      <input
+        type="text"
+        placeholder="Add Todo"
+        ref={input => (this.input = input)}
+        onKeyPress={event => (event.key === 'Enter' ? this.addItem() : null)}
+      />
+      <button onClick={this.addItem}>Add Todo</button>
+      <List
+        items={this.props.todos}
+        remove={this.removeItem}
+        toggle={this.toggleItem}
+      />
+    </Fragment>
+  );
 }

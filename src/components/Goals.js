@@ -4,11 +4,11 @@ import { handleDeleteGoal, handleAddGoal } from '../actionCreators';
 
 export default class Goals extends Component {
   addItem = () =>
-    this.props.store.dispatch(
+    this.props.dispatch(
       handleAddGoal(this.input.value, () => (this.input.value = ''))
     );
 
-  removeItem = goal => this.props.store.dispatch(handleDeleteGoal(goal));
+  removeItem = goal => this.props.dispatch(handleDeleteGoal(goal));
 
   render() {
     return (

@@ -4,15 +4,10 @@ import ConnectedGoals from '../containers/ConnectedGoals';
 import { handleInitialData } from '../actionCreators';
 
 export default class App extends Component {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(handleInitialData());
-  }
+  componentDidMount = () => this.props.dispatch(handleInitialData());
 
-  render() {
-    const { loading } = this.props;
-
-    return loading === true ? (
+  render = () =>
+    this.props.loading === true ? (
       <h3>Loading...</h3>
     ) : (
       <Fragment>
@@ -20,5 +15,4 @@ export default class App extends Component {
         <ConnectedGoals />
       </Fragment>
     );
-  }
 }
