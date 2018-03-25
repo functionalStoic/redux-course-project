@@ -1,14 +1,10 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { todos, goals, loading } from './reducers';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './reducers/';
 import { checker, logger } from './middleware';
 
 import ReduxThunk from 'redux-thunk';
 
 export default createStore(
-  combineReducers({
-    todos,
-    goals,
-    loading
-  }),
+  reducers,
   applyMiddleware(ReduxThunk, checker, logger)
 );
