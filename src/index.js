@@ -1,6 +1,12 @@
-import React from "react";
-import { render } from "react-dom";
-import App from "./components/App";
-import store from "./store";
+import React from 'react';
+import { render } from 'react-dom';
+import Provider from './Provider';
+import ConnectedApp from './containers/ConnectedApp';
+import store from './store';
 
-render(<App store={store} />, document.getElementById("root"));
+render(
+  <Provider store={store}>
+    <ConnectedApp />
+  </Provider>,
+  document.getElementById('root')
+);
